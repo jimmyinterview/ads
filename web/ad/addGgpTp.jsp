@@ -8,7 +8,7 @@
 %>
 <script type="text/javascript">
 	$(document).ready(function() {
-		initFileInput("moreFile", "/User/EditPortrait");
+		initFileInput("moreFile", "/ggp/updateImage.do");
 	});
 </script>
 <div  class="well" style="height:auto">
@@ -34,9 +34,8 @@
 					<label>广告牌图片上传：</label>
 				</div>
 			</div>
-			<div class="row" style="position:static;float:none;clear:both;">
-				<input id="moreFile" type="file" multiple class="file"
-					data-overwrite-initial="false" data-min-file-count="1">
+			<div  class="form-group" style="position:static;float:none;clear:both;">
+				<input id="moreFile" type="file" multiple data-preview-file-type="any" >
 			</div>
 			<div class="modal-footer" style="position:static;float:nono;clear:both;margin-top:20px;">
 				<button id="subnitBtn" class="btn btn-primary pull-left"

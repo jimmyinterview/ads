@@ -12,6 +12,7 @@
 <base href="<%=basePath%>">
 <script src="js/jquery/jquery-1.11.1.min.js"></script>
 <link href="<%=path%>/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
 <link href="<%=path%>/css/bootstrap-datetimepicker.min.css"
 	rel="stylesheet">
 <link href="<%=path%>/common/css/global.css" rel="stylesheet" />
