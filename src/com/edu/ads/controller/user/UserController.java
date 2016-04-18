@@ -1,6 +1,7 @@
 package com.edu.ads.controller.user;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,6 +51,7 @@ public class UserController extends BaseController{
 		User user = new User();
 		getBean(user, request);
 		user.setId(CommonUtils.getUUid());
+		user.setCreateDate(new Date());
 		userService.addUser(user);
 		return "/user/loadUserManger.do";
 	}
@@ -91,16 +93,15 @@ public class UserController extends BaseController{
 		if(name!=null&&!"".equals(name)){
 			param.put("name", name);
 		}
-		int type = 1;
 		if(usertype!=null&&!"".equals(usertype)){
 			try{
-				type =  Integer.valueOf(usertype);
+				int type =  Integer.valueOf(usertype);
+				param.put("type", type);
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-			param.put("type", type);
 		}
-		String ordery = " order by name desc";
+		String ordery = " order by createDate desc";
 		PageResult<User> pageResult = userService.list(param, page, ordery);
 		double totalCount =pageResult.getTotalRecords();
 		double perPageSize = page.getPageLength();
@@ -112,18 +113,6 @@ public class UserController extends BaseController{
 	}
 	
 	
-	private Page bulidPage(String currentPage,String pageSize){
-		int current = 0;
-		int size = 5;
-		try{
-			 current = Integer.valueOf(currentPage);
-			 size = Integer.valueOf(pageSize);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		return  new Page(current,size);
-	}
 	@RequestMapping("/loadUserAdd.do")
 	public String loadUserAdd(){
 		return "/user/adduse.jsp";

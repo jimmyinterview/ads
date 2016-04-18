@@ -21,15 +21,15 @@ public class Ggp {
 	@Column(name = "c_id", nullable = false, length = 32)
 	private String id;
 	
-	@ManyToOne(cascade={CascadeType.ALL})           
-    @JoinColumn(name="ggplx_id") 
+	@ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH})           
+    @JoinColumn(name="c_lx")
 	private GgpType lx;
 	
 	@Column(name = "c_ms", nullable = true, length = 900)
 	private String ms;
 	
 	@Column(name = "n_jg", nullable = true, length = 11)
-	private int jg;
+	private double jg;
 	
 	@Column(name = "n_zt", nullable = true, length = 11)
 	private int zt;
@@ -64,11 +64,11 @@ public class Ggp {
 		this.ms = ms;
 	}
 
-	public int getJg() {
+	public double getJg() {
 		return jg;
 	}
 
-	public void setJg(int jg) {
+	public void setJg(double jg) {
 		this.jg = jg;
 	}
 

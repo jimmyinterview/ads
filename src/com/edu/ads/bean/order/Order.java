@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.GenericGenerator;
 
 
 @Table(name="t_ggdd")
@@ -15,7 +18,7 @@ import javax.persistence.Table;
 public class Order {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GenericGenerator(name="hibernate-uuid",strategy="uuid")
 	@Column(name = "c_id", nullable = false, length = 32)
 	private String id;
 	
@@ -54,17 +57,39 @@ public class Order {
 	private String xsry;
 	
 	/**
+	 * 销售人员名称
+	 */
+	@Transient
+	private String ysrymc;
+	
+	
+	
+	/**
 	 * 外键广告牌
 	 */
-	@Column(name = "c_xsry", nullable = true, length = 300)
+	@Column(name = "c_ggpid", nullable = true, length = 300)
 	private String ggpid;
+
+	/**
+	 * 广告牌类型名称
+	 */
+	@Transient
+	private String ggplxmc;
+	
+	/**
+	 * 广告牌单价，冗余字段
+	 */
+	@Transient
+	private double ggpdj;
 	
 	/**
 	 * 订单时间
 	 */
-	@Column(name = "n_count", nullable = true)
+	@Column(name = "d_ddsj", nullable = true)
 	private Date ddsj;
 
+
+	
 	public String getId() {
 		return id;
 	}
@@ -135,6 +160,30 @@ public class Order {
 
 	public void setDdsj(Date ddsj) {
 		this.ddsj = ddsj;
+	}
+
+	public double getGgpdj() {
+		return ggpdj;
+	}
+
+	public void setGgpdj(double ggpdj) {
+		this.ggpdj = ggpdj;
+	}
+
+	public String getYsrymc() {
+		return ysrymc;
+	}
+
+	public void setYsrymc(String ysrymc) {
+		this.ysrymc = ysrymc;
+	}
+
+	public String getGgplxmc() {
+		return ggplxmc;
+	}
+
+	public void setGgplxmc(String ggplxmc) {
+		this.ggplxmc = ggplxmc;
 	}
 	
 }
