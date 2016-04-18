@@ -98,16 +98,17 @@ CREATE TABLE `t_ry` (
   `n_type` int(11) default NULL,
   `c_username` varchar(300) default NULL,
   `c_password` varchar(300) default NULL,
+  `d_createDate` timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY  (`c_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_ry
 -- ----------------------------
-INSERT INTO `t_ry` VALUES ('02868fd4e93045eb949d07ce070adae4', 'sfhj', '1', 'jjhjkhjk', 'hjkhjkhj');
-INSERT INTO `t_ry` VALUES ('3d9adfac8b664822b2ba8ad74c240967', 'wjc', '1', 'lonelyboywjc', '111222');
-INSERT INTO `t_ry` VALUES ('48fff654fdfc4ae2a05a6387471029b9', 'sdasd', '2', 'asdasdas', 'asdasda');
-INSERT INTO `t_ry` VALUES ('887e645dc904412fa1c879c8e64e081f', 'sdasd', '1', 'asdasd', 'asdasd');
-INSERT INTO `t_ry` VALUES ('8ddd2b9157c24fabb7f07995bd636ce5', '1', '1', '1', '1');
-INSERT INTO `t_ry` VALUES ('fb74455218654f2f8bd60f64c403a9be', 'asdasd', '1', 'fasfasfdsfsdf', 'asdasd');
-INSERT INTO `t_ry` VALUES ('sssss', 'tx', '1', null, null);
+INSERT INTO `t_ry` VALUES ('02868fd4e93045eb949d07ce070adae4', 'sfhj', '1', 'jjhjkhjk', 'hjkhjkhj',NOW());
+INSERT INTO `t_ry` VALUES ('3d9adfac8b664822b2ba8ad74c240967', 'wjc', '1', 'lonelyboywjc', '111222',NOW());
+INSERT INTO `t_ry` VALUES ('48fff654fdfc4ae2a05a6387471029b9', 'sdasd', '2', 'asdasdas', 'asdasda',NOW());
+INSERT INTO `t_ry` VALUES ('887e645dc904412fa1c879c8e64e081f', 'sdasd', '1', 'asdasd', 'asdasd',NOW());
+INSERT INTO `t_ry` VALUES ('8ddd2b9157c24fabb7f07995bd636ce5', '1', '1', '1', '1',NOW());
+INSERT INTO `t_ry` VALUES ('fb74455218654f2f8bd60f64c403a9be', 'asdasd', '1', 'fasfasfdsfsdf', 'asdasd',NOW());
+INSERT INTO `t_ry` VALUES ('sssss', 'tx', '1', null, null,NOW());
