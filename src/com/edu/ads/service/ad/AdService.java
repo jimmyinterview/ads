@@ -145,4 +145,13 @@ public class AdService {
 	public List<Ggp> getAllGgp() {
 		return ggpDao.getAllgg();
 	}
+	
+	/*=======================================广告牌==============================================*/
+	/**
+	 * 新增广告牌图片
+	 * @param void
+	 */
+	public void addGgptp(Ggptp ggptp){
+		ggptpDao.save(ggptp);
+	}
 }

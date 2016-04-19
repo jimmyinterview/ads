@@ -134,7 +134,7 @@
 		return flag;
 	}
 
-	function submitGgpAdd(eleid, ischeck) {
+	function submitGgpTpAdd(eleid, ischeck) {
 		var ggpType = $("#lx").val();
 		if (ggpType == null || ggpType == "-1") {
 			$("#ggpTypeInfo").show();
@@ -142,22 +142,21 @@
 		} else {
 			$("#ggpTypeInfo").hide();
 		}
-		var ms = $("#ms").val();
-		if (ms == null || ms == "") {
-			$("#msInfo").show();
+		var url = path + "ggp/checkGgpTpCount.do";
+		var flag = "1";
+		$.ajax({
+			type : 'POST',
+			async : false,
+			url : url,
+			success : function(res) {
+				flag = res;
+			}
+		});
+		if('1'==flag){
+			alert("至少选择一张图片");
 			return;
-		} else {
-			$("#msInfo").hide();
-		}
-		var jg = $("#jg").val();
-		if (jg == null || jg == "" || !validate(jg)) {
-			$("#priceInfo").show();
-			return;
-		} else {
-			$("#priceInfo").hide();
 		}
 		$("#" + eleid).submit();
-
 	}
 
 	function submitGgpUpdate(eleid, ischeck) {
@@ -211,6 +210,12 @@
 			showCaption : false,//是否显示标题
 			browseClass : "btn btn-primary", //按钮样式             
 			previewFileIcon : "<i class='glyphicon glyphicon-king'></i>",
+		});
+		$(control).on("fileuploaded", function(event, data, previewId, index) {
+			if('ERROR'==data.response.status)
+			{
+				alert(data.response.statusMsg);
+			}
 		});
 	}
 </script>

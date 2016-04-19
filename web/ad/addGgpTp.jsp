@@ -12,7 +12,7 @@
 	});
 </script>
 <div  class="well" style="height:auto">
-	<form method="post" class="form-horizontal" action="/ggp/saveGgpTp"
+	<form method="post" class="form-horizontal" action="<%=basePath%>ggp/saveGgpTp.do"
 		id="ggpTpAddForm" enctype="multipart/form-data" method="post">
 		<div class="modal-body" style="height:100%">
 			<div class="row form-group">
