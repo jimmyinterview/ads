@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%
 String path = request.getContextPath();
 String host = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort();
@@ -19,7 +20,9 @@ String dflogo=path+"/images/logo.png";
    	</div>
  	<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
     	<ul class="nav navbar-nav" style="min-width: 750px">
+    	    <c:if test="${sessionScope.user.type!=2 }">
 			<li class="dropdown" onclick="window.location='<%=path%>/user/loadUserManger.do'" ><a id="drop1" data-target="#" class="nav_focus" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">人员管理</a></li>
+    	    </c:if>
 			<li class="dropdown" onclick="window.location='<%=path%>/order/loadOrderManger.do'" ><a id="drop1" data-target="#" class="nav_focus" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">订单管理</a></li>
 			<li class="dropdown" onclick="window.location='<%=path%>/ggp/loadGgpTypeManger.do'" ><a id="drop1" data-target="#" class="nav_focus" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">广告牌管理</a></li>
     	</ul>
