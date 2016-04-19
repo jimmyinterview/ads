@@ -8,7 +8,7 @@
 %>
 <script type="text/javascript">
 	$(document).ready(function() {
-		initFileInput("moreFile", "/ggp/updateImage.do");
+		initFileInput("moreFile", "<%=basePath%>/ggp/uploadMultipleFile.do");
 	});
 </script>
 <div  class="well" style="height:auto">
@@ -35,7 +35,7 @@
 				</div>
 			</div>
 			<div  class="form-group" style="position:static;float:none;clear:both;">
-				<input id="moreFile" type="file" multiple data-preview-file-type="any" >
+				<input id="moreFile" name="moreFile" type="file" multiple data-preview-file-type="any" >
 			</div>
 			<div class="modal-footer" style="position:static;float:nono;clear:both;margin-top:20px;">
 				<button id="subnitBtn" class="btn btn-primary pull-left"

@@ -1,7 +1,11 @@
 package com.edu.ads.controller.ad;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,18 +16,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.edu.ads.bean.ggp.Ggp;
 import com.edu.ads.bean.ggp.GgpType;
 import com.edu.ads.bean.ggp.Ggptp;
+import com.edu.ads.bean.ggp.Message;
+import com.edu.ads.bean.ggp.Status;
 import com.edu.ads.bean.user.User;
 import com.edu.ads.common.page.Page;
 import com.edu.ads.common.page.PageResult;
 import com.edu.ads.common.utils.CommonUtils;
+import com.edu.ads.common.utils.ConfigUtil;
 import com.edu.ads.controller.BaseController;
 import com.edu.ads.service.ad.AdService;
 
@@ -315,20 +323,57 @@ public class GgpController extends BaseController{
 		return "/ggp/loadGgpManger.do";
 	}
 	
-	@RequestMapping("/updateImage.do")  
-    public void uploadFile(HttpServletResponse response,HttpServletRequest request,@RequestParam(value="file", required=false) MultipartFile file) throws IOException{  
-        byte[] bytes = file.getBytes();  
-        System.out.println(file.getOriginalFilename());  
-        String uploadDir = request.getRealPath("/")+"upload";  
-        File dirPath = new File(uploadDir);  
-        if (!dirPath.exists()) {  
-            dirPath.mkdirs();  
-        }  
-        String sep = System.getProperty("file.separator");  
-        File uploadedFile = new File(uploadDir + sep  
-                + file.getOriginalFilename());  
-        FileCopyUtils.copy(bytes, uploadedFile);  
-        String msg = "true";
-        response.getWriter().write(msg);  
-    }  
+	/**
+     * 上传多图
+     */
+    @RequestMapping(value = "/uploadMultipleFile.do", method = RequestMethod.POST, produces = "application/json;charset=utf8")
+    @ResponseBody
+    public Message uploadMultipleFileHandler(@RequestParam("moreFile") MultipartFile[] files) throws IOException {
+        Message msg = new Message();
+        List<Integer> arr = new ArrayList<Integer>();
+        for (int i = 0; i < files.length; i++) {
+            MultipartFile file = files[i];
+            if (!file.isEmpty()) {
+                InputStream in = null;
+                OutputStream out = null;
+                try {
+                	File dir=new File(ConfigUtil.updatePath("UPLOAD_IMG"));
+                    if (!dir.exists())
+                        dir.mkdirs();
+                    File serverFile = new File(dir.getAbsolutePath() + File.separator + file.getOriginalFilename());
+                    in = file.getInputStream();
+                    out = new FileOutputStream(serverFile);
+                    byte[] b = new byte[1024];
+                    int len = 0;
+                    while ((len = in.read(b)) > 0) {
+                        out.write(b, 0, len);
+                    }
+                    out.close();
+                    in.close();
+                } catch (Exception e) {
+                    arr.add(i);
+                } finally {
+                    if (out != null) {
+                        out.close();
+                        out = null;
+                    }
+                    if (in != null) {
+                        in.close();
+                        in = null;
+                    }
+                }
+            } else {
+                arr.add(i);
+            }
+        }
+        if(arr.size() > 0) {
+            msg.setStatus(Status.ERROR);
+            msg.setError("Files upload fail");
+            msg.setErrorKys(arr);
+        } else {
+            msg.setStatus(Status.SUCCESS);
+            msg.setStatusMsg("Files upload success");
+        }
+        return msg;
+    }
 }
