@@ -25,7 +25,7 @@ String dflogo=path+"/images/logo.png";
     	</ul>
     	<ul class="nav navbar-nav navbar-right">
       		<li class="dropdown">
-        		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> 管理员 <b class="caret"></b></a>
+        		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> ${sessionScope.user.name} <b class="caret"></b></a>
 	          	<ul class="dropdown-menu">
 	            	<li><a href="<%=path %>"><i class="glyphicon glyphicon-home"></i> 回首页</a></li>
 	            	<li class="divider"></li>
