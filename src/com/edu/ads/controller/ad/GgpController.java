@@ -40,10 +40,13 @@ import com.edu.ads.service.ad.AdService;
 public class GgpController extends BaseController {
 	@Autowired
 	private AdService adService;
+	static String flage = "lock";
 
 	/*
 	 * =======================================广告牌类型==============================
-	 * ==============================================================================
+	 * ==
+	 * ========================================================================
+	 * ====
 	 */
 	@RequestMapping("/loadGgpTypeManger.do")
 	public String loadGgpTypeManger() {
@@ -121,7 +124,9 @@ public class GgpController extends BaseController {
 
 	/*
 	 * =======================================广告牌================================
-	 * =============================================================================
+	 * ==
+	 * ========================================================================
+	 * ===
 	 */
 	@RequestMapping("/loadGgpManger.do")
 	public String loadGgpManger(HttpServletRequest request,
@@ -203,8 +208,10 @@ public class GgpController extends BaseController {
 		String id = request.getParameter("id");
 		Ggp ggp = adService.findggp(id);
 		List<GgpType> ggpTypeList = adService.getAllGgType();
+		List<Ggptp> ggptpList = adService.tpByGgp(ggp);
 		request.setAttribute("ggpTypeList", ggpTypeList);
 		request.setAttribute("ggp", ggp);
+		request.setAttribute("ggptpList", ggptpList);
 		return "/ad/ggpEedit.jsp";
 	}
 
@@ -237,7 +244,9 @@ public class GgpController extends BaseController {
 
 	/*
 	 * =======================================广告牌图片==============================
-	 * ==============================================================================
+	 * ==
+	 * ========================================================================
+	 * ====
 	 */
 
 	@RequestMapping("/loadGgpTpManger.do")
@@ -245,6 +254,8 @@ public class GgpController extends BaseController {
 			HttpServletResponse response) {
 		List<GgpType> ggpTypeList = adService.getAllGgType();
 		request.setAttribute("ggpTypeList", ggpTypeList);
+		List<Ggp> ggpList = adService.getAllGgp();
+		request.setAttribute("ggpList", ggpList);
 		return "/ad/ggpTpManage.jsp";
 	}
 
@@ -252,13 +263,17 @@ public class GgpController extends BaseController {
 	public String getGgpTpList(HttpServletRequest request,
 			HttpServletResponse response) {
 		String ggpType = request.getParameter("ggpType");
+		String ggp = request.getParameter("ggp");		
 		String currentPage = request.getParameter("currentPage");
 		String pageSize = request.getParameter("pageSize");
 		Page page = bulidPage(currentPage, pageSize);
 		page.setPageLength(8);
 		Map<String, Object> param = new HashMap<String, Object>();
 		if (ggpType != null && !"".equals(ggpType)) {
-			param.put("lx", adService.findggpType(ggpType));
+			param.put("ggp.lx", adService.findggpType(ggpType));
+		}
+		if (ggp != null && !"".equals(ggp)) {
+			param.put("ggp", adService.findggp(ggp));
 		}
 		PageResult<Ggptp> pageResult = adService.ggptpList(param, page, "");
 		double totalCount = pageResult.getTotalRecords();
@@ -282,9 +297,9 @@ public class GgpController extends BaseController {
 	public String saveGgpTp(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String lx = request.getParameter("lx");
-		List<String> paths = (List<String>) request.getSession().getAttribute("upImageFile");
-		System.out.println(paths.size());
-		for(String path:paths){
+		List<String> paths = (List<String>) request.getSession().getAttribute(
+				"upImageFile");
+		for (String path : paths) {
 			Ggptp ggptp = new Ggptp();
 			ggptp.setId(CommonUtils.getUUid());
 			Ggp ggp = adService.findggp(lx);
@@ -347,97 +362,103 @@ public class GgpController extends BaseController {
 		Message msg = new Message();
 		List<Integer> arr = new ArrayList<Integer>();
 		User user = (User) request.getSession().getAttribute("user");
-		if(user==null){
+		if (user == null) {
 			msg.setStatus(Status.ERROR);
 			msg.setError("请先登录！");
 			return msg;
 		}
-		List<String> filespath=null;
-		synchronized (request.getSession()) {
-			filespath=(List<String>)request.getSession().getAttribute("upImageFile");
-			if(filespath==null){
+		List<String> filespath = null;
+		//这个地方上传图片为异步，control为单例如果不加入有可能会出现上传不完全的情况
+		synchronized (this) {
+			filespath = (List<String>) request.getSession().getAttribute(
+					"upImageFile");
+			if (filespath == null) {
 				filespath = new ArrayList<String>();
 			}
-		}
-		for (int i = 0; i < files.length; i++) {
-			MultipartFile file = files[i];
-			try {
-				if (!file.isEmpty()) {
-					InputStream in = null;
-					OutputStream out = null;
-					try {
-						File dir = new File(ConfigUtil.updatePath(user));
-						if (!dir.exists())
-							dir.mkdirs();
-						String path=dir.getAbsolutePath()
-								+ File.separator + file.getOriginalFilename();
-						File serverFile = new File(path);
-						path=path.substring(path.indexOf(ConfigUtil.getString("UPLOAD_IMG")));
-						System.out.println(path);
-						boolean ISexist=false;
-						for(String src:filespath){
-							if(src.equals(path)){
-								ISexist=true;
-								break;
+			for (int i = 0; i < files.length; i++) {
+				MultipartFile file = files[i];
+				try {
+					if (!file.isEmpty()) {
+						InputStream in = null;
+						OutputStream out = null;
+						try {
+							File dir = new File(ConfigUtil.updatePath(user));
+							if (!dir.exists())
+								dir.mkdirs();
+							String path = dir.getAbsolutePath()
+									+ File.separator
+									+ file.getOriginalFilename();
+							File serverFile = new File(path);
+							path = path.substring(path.indexOf(ConfigUtil
+									.getString("UPLOAD_IMG")));
+							System.out.println(path);
+							boolean ISexist = false;
+							for (String src : filespath) {
+								if (src.equals(path)) {
+									ISexist = true;
+									break;
+								}
+							}
+							if (!ISexist)
+								filespath.add(path.substring(path
+										.indexOf(ConfigUtil
+												.getString("UPLOAD_IMG"))));
+							in = file.getInputStream();
+							out = new FileOutputStream(serverFile);
+							byte[] b = new byte[1024];
+							int len = 0;
+							while ((len = in.read(b)) > 0) {
+								out.write(b, 0, len);
+							}
+							out.close();
+							in.close();
+						} catch (Exception e) {
+							arr.add(i);
+						} finally {
+							if (out != null) {
+								out.close();
+								out = null;
+							}
+							if (in != null) {
+								in.close();
+								in = null;
 							}
 						}
-						if(!ISexist)
-							filespath.add(path.substring(path.indexOf(ConfigUtil.getString("UPLOAD_IMG"))));
-						in = file.getInputStream();
-						out = new FileOutputStream(serverFile);
-						byte[] b = new byte[1024];
-						int len = 0;
-						while ((len = in.read(b)) > 0) {
-							out.write(b, 0, len);
-						}
-						out.close();
-						in.close();
-					} catch (Exception e) {
+					} else {
 						arr.add(i);
-					} finally {
-						if (out != null) {
-							out.close();
-							out = null;
-						}
-						if (in != null) {
-							in.close();
-							in = null;
-						}
 					}
-				} else {
-					arr.add(i);
+				} catch (Exception e) {
+					msg.setStatus(Status.ERROR);
+					msg.setStatusMsg(file.getOriginalFilename() + "上传失败");
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
+			}
+			if (arr.size() > 0) {
 				msg.setStatus(Status.ERROR);
-				msg.setStatusMsg(file.getOriginalFilename() + "上传失败");
-				e.printStackTrace();
+				msg.setError("Files upload fail");
+				msg.setErrorKys(arr);
+			} else {
+				msg.setStatus(Status.SUCCESS);
+				msg.setStatusMsg("Files upload success");
+				request.getSession().setAttribute("upImageFile", filespath);
 			}
 		}
-		if (arr.size() > 0) {
-			msg.setStatus(Status.ERROR);
-			msg.setError("Files upload fail");
-			msg.setErrorKys(arr);
-		} else {
-			msg.setStatus(Status.SUCCESS);
-			msg.setStatusMsg("Files upload success");
-			request.getSession().setAttribute("upImageFile",filespath);
-		}
-		System.out.println(filespath.size());
 		return msg;
 	}
-	
+
 	@RequestMapping("/checkGgpTpCount.do")
 	public void checkGgpTpCount(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		List<String> paths=(List<String>)request.getSession().getAttribute("upImageFile");
-		if (paths==null) {
+		List<String> paths = (List<String>) request.getSession().getAttribute(
+				"upImageFile");
+		if (paths == null) {
 			response.getWriter().write("1");
 		} else {
 			response.getWriter().write("0");
 		}
 		response.getWriter().flush();
 	}
-	
+
 	@RequestMapping("/deleteGgpTp.do")
 	public String deleteGgpTp(HttpServletRequest request,
 			HttpServletResponse response) {

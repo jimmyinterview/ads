@@ -7,11 +7,12 @@
 			+ path + "/";
 %>
 <style type="text/css">
-@media (min-width: 992px)
-.col-md-3 {
-    width: 20%;
+   .thumbnail img {
+    weight:auto;
+    height:100px;
 }
 </style>
+
 
 <base href="<%=basePath%>">
 <div class="row">

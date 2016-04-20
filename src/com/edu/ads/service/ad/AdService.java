@@ -172,4 +172,13 @@ public class AdService {
 	public void deleteGgpTp(Ggptp ggptp) {
 		ggptpDao.delete(ggptp);
 	}
+	
+	/**
+	 * 根据广告牌查询图片
+	 * @param id
+	 * @return void
+	 */
+	public List<Ggptp> tpByGgp(Ggp ggp) {
+		return ggptpDao.getAllGgpTpByGgp(ggp);
+	}
 }

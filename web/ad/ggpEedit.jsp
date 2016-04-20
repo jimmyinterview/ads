@@ -1,11 +1,25 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
+<style type="text/css">
+#myCarousel {
+	margin: 0 auto;
+	width: 500px;
+}
+</style>
+<script type="text/javascript">
+	$(function() {
+		$('#myCarousel').carousel({
+			interval : 500
+		});
+	});
+</script>
 <div class="">
 	<div class="modal-header">
 		<button aria-hidden="true" data-dismiss="modal" class="close"
@@ -50,10 +64,8 @@
 				<div class="col-md-7 controls">
 					<div class="input-group">
 						<select class="form-control" id="lx" name="zt">
-							<option value="1"
-									<c:if test="${ggp.zt==1}">selected</c:if>>空闲</option>
-							<option value="2"
-									<c:if test="${ggp.zt==2}">selected</c:if>>使用中</option>
+							<option value="1" <c:if test="${ggp.zt==1}">selected</c:if>>空闲</option>
+							<option value="2" <c:if test="${ggp.zt==2}">selected</c:if>>使用中</option>
 						</select> <label id="ztInfo" class="errorInfo">*必须选择一个类型</label>
 					</div>
 				</div>
@@ -73,12 +85,32 @@
 					<label>添加人：</label>
 				</div>
 				<div class="col-md-7 controls">
-					<input type="text" class="form-control" id="tjr"
-						name="tjr" value="${ggp.tjry }" readonly="true" />
+					<input type="text" class="form-control" id="tjr" name="tjr"
+						value="${ggp.tjry }" readonly="true" />
 				</div>
 			</div>
 		</div>
 	</form>
+
+	<div id="myCarousel" class="carousel slide">
+		<ol class="carousel-indicators">
+			<c:forEach items="${requestScope.ggptpList}" var="ggptp"
+				varStatus="s">
+				<li data-target="#myCarousel" data-slide-to="${s.index}"
+					<c:if test="${s.index==0}">class="active"</c:if>></li>
+			</c:forEach>
+		</ol>
+		<div class="carousel-inner">
+			<c:forEach items="${requestScope.ggptpList}" var="ggptp"
+				varStatus="s">
+				<div <c:choose><c:when test="${s.index==0}">class="active item"</c:when>
+				<c:otherwise>class="item"</c:otherwise> </c:choose>>
+					<img src="<%=basePath%>${ggptp.url}" />
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+
 	<div class="modal-footer">
 		<button id="updatesubnitBtn" class="btn btn-primary pull-right"
 			type="button" onclick="submitGgpUpdate('updateGgpForm',false)">提交</button>

@@ -42,13 +42,8 @@
 	function getParam(currentPage) {
 		var curp = 1;
 		var pageSize = 5;
-		var ms = $("#ms").val();
-		var useInfo = $("#useInfo").val();
+		var ggp = $("#ggp").val();
 		var ggpType = $("#ggpType").val();
-		var userType = $("#userType").val();
-		if (userType == null || userType == "") {
-			userType = 1;
-		}
 		if ($("#pageSize").val()) {
 			pageSize = $("#pageSize").val();
 		}
@@ -59,8 +54,7 @@
 			curp = $("#curPage").val();
 		}
 		var data = {
-			ms : ms,
-			useInfo : useInfo,
+			ggp : ggp,
 			ggpType : ggpType,
 			currentPage : curp,
 			pageSize : pageSize,
@@ -224,6 +218,14 @@
 							<option value="">广告类型</option>
 							<c:forEach items="${ggpTypeList}" var="gglx">
 								<option value="${gglx.id}">${gglx.mc}</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control" id="ggp">
+							<option value="">广告牌</option>
+							<c:forEach items="${ggpList}" var="ggp">
+								<option value="${ggp.id}">${ggp.ms}</option>
 							</c:forEach>
 						</select>
 					</div>
