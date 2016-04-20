@@ -25,7 +25,7 @@
 <script src="js/bootstrap/bootstrap.min.js"></script>
 <script src="<%=basePath%>js/bootstrap/bootstrap-paginator.min.js"></script>
 <script src="<%=basePath%>js/bootstrap/b3paginator.js"></script>
-
+<script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>  
 <script type="text/javascript">
 $(function(){
     loadOrderList(1);
