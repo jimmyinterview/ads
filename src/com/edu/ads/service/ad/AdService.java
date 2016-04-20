@@ -146,12 +146,30 @@ public class AdService {
 		return ggpDao.getAllgg();
 	}
 	
-	/*=======================================广告牌==============================================*/
+	/*=======================================图片==============================================*/
 	/**
 	 * 新增广告牌图片
 	 * @param void
 	 */
 	public void addGgptp(Ggptp ggptp){
 		ggptpDao.save(ggptp);
+	}
+	
+	/**
+	 * 查找广告类型
+	 * @param id
+	 * @return Ggptp
+	 */
+	public Ggptp findggpTp(String id){
+		return ggptpDao.find(id);
+	}
+	
+	/**
+	 * 查找广告类型
+	 * @param id
+	 * @return void
+	 */
+	public void deleteGgpTp(Ggptp ggptp) {
+		ggptpDao.delete(ggptp);
 	}
 }

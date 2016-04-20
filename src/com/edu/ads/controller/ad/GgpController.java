@@ -255,6 +255,7 @@ public class GgpController extends BaseController {
 		String currentPage = request.getParameter("currentPage");
 		String pageSize = request.getParameter("pageSize");
 		Page page = bulidPage(currentPage, pageSize);
+		page.setPageLength(8);
 		Map<String, Object> param = new HashMap<String, Object>();
 		if (ggpType != null && !"".equals(ggpType)) {
 			param.put("lx", adService.findggpType(ggpType));
@@ -330,15 +331,6 @@ public class GgpController extends BaseController {
 		Ggp.setZt(Integer.valueOf(zt));
 		Ggp.setJg(Double.valueOf(updatejg));
 		adService.upGgp(Ggp);
-		return "/ggp/loadGgpManger.do";
-	}
-
-	@RequestMapping("/deleteGgpTp.do")
-	public String deleteGgpTp(HttpServletRequest request,
-			HttpServletResponse response) {
-		String id = request.getParameter("id");
-		Ggp Ggp = adService.findggp(id);
-		adService.deleteGgp(Ggp);
 		return "/ggp/loadGgpManger.do";
 	}
 
@@ -427,5 +419,14 @@ public class GgpController extends BaseController {
 			response.getWriter().write("0");
 		}
 		response.getWriter().flush();
+	}
+	
+	@RequestMapping("/deleteGgpTp.do")
+	public String deleteGgpTp(HttpServletRequest request,
+			HttpServletResponse response) {
+		String id = request.getParameter("id");
+		Ggptp ggptp = adService.findggpTp(id);
+		adService.deleteGgpTp(ggptp);
+		return "/ggp/loadGgpTpManger.do";
 	}
 }
