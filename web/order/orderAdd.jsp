@@ -34,8 +34,8 @@
 		<div class="form-group">
 			<label class="col-sm-4 control-label">开始时间：</label>
 			<div class="col-md-6">
-				<input type="text" class="form-control" id="kssj" name="kssj"
-					placeholder="开始时间" > <label
+				<input type="text" class="form-control " id="kssj" name="kssj"
+					placeholder="开始时间"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" > <label
 					id="kssjInfo" class="errorInfo">*开始时间不能为空</label>
 			</div>
 		</div>
@@ -43,7 +43,7 @@
 		    <label class="col-sm-4 control-label">结束时间：</label>
 			<div class="col-md-6">
 				<input type="text" class="form-control" id="jssj" name="jssj"
-				 placeholder="结束时间"> <label id="jssjInfo"
+				 placeholder="结束时间" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd',readOnly:true})" > <label id="jssjInfo"
 					class="errorInfo">*结束时间不能为空</label>
 			</div>
 		</div>
