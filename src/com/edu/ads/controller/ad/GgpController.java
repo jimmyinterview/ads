@@ -283,6 +283,7 @@ public class GgpController extends BaseController {
 			HttpServletResponse response) throws IOException {
 		String lx = request.getParameter("lx");
 		List<String> paths = (List<String>) request.getSession().getAttribute("upImageFile");
+		System.out.println(paths.size());
 		for(String path:paths){
 			Ggptp ggptp = new Ggptp();
 			ggptp.setId(CommonUtils.getUUid());
@@ -291,6 +292,7 @@ public class GgpController extends BaseController {
 			ggptp.setUrl(path);
 			adService.addGgptp(ggptp);
 		}
+		request.getSession().removeAttribute("upImageFile");
 		return "/ggp/loadGgpTpManger.do";
 	}
 
@@ -350,9 +352,13 @@ public class GgpController extends BaseController {
 			msg.setError("请先登录！");
 			return msg;
 		}
-		List<String> filespath=(List<String>)request.getSession().getAttribute("upImageFile");
-		if(filespath==null)
-		   filespath = new ArrayList<String>();
+		List<String> filespath=null;
+		synchronized (request.getSession()) {
+			filespath=(List<String>)request.getSession().getAttribute("upImageFile");
+			if(filespath==null){
+				filespath = new ArrayList<String>();
+			}
+		}
 		for (int i = 0; i < files.length; i++) {
 			MultipartFile file = files[i];
 			try {
@@ -366,7 +372,17 @@ public class GgpController extends BaseController {
 						String path=dir.getAbsolutePath()
 								+ File.separator + file.getOriginalFilename();
 						File serverFile = new File(path);
-						filespath.add(path.substring(path.indexOf(ConfigUtil.getString("UPLOAD_IMG"))));
+						path=path.substring(path.indexOf(ConfigUtil.getString("UPLOAD_IMG")));
+						System.out.println(path);
+						boolean ISexist=false;
+						for(String src:filespath){
+							if(src.equals(path)){
+								ISexist=true;
+								break;
+							}
+						}
+						if(!ISexist)
+							filespath.add(path.substring(path.indexOf(ConfigUtil.getString("UPLOAD_IMG"))));
 						in = file.getInputStream();
 						out = new FileOutputStream(serverFile);
 						byte[] b = new byte[1024];
@@ -406,6 +422,7 @@ public class GgpController extends BaseController {
 			msg.setStatusMsg("Files upload success");
 			request.getSession().setAttribute("upImageFile",filespath);
 		}
+		System.out.println(filespath.size());
 		return msg;
 	}
 	
