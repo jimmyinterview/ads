@@ -44,10 +44,17 @@
 				</div>
 				<div class="input-group">
 					<select class="form-control" id="lx" name="lx">
+						<c:choose>
+						<c:when test="${ggpList!=null}">
 						<option value="-1">请选择</option>
-						<c:forEach items="${ggpList}" var="ggp">
-							<option value="${ggp.id}">${ggp.ms}</option>
+						<c:forEach items="${ggpList}" var="ggpObj">
+							<option value="${ggpObj.id}">${ggpObj.ms}</option>
 						</c:forEach>
+						</c:when>
+						<c:otherwise>
+						<option value="${requestScope.ggp.id}">${requestScope.ggp.ms}</option>
+						</c:otherwise>
+						</c:choose>
 					</select> <label id="ggpTypeInfo" class="errorInfo">*必须选择一个广告牌</label>
 				</div>
 			</div>

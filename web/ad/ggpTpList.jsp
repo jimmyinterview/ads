@@ -9,7 +9,7 @@
 <style type="text/css">
    .thumbnail img {
     weight:auto;
-    height:100px;
+    height:150px;
 }
 </style>
 
