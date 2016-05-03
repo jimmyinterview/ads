@@ -425,7 +425,7 @@ public class GgpController extends BaseController {
 							}
 						}
 					} else {
-						arr.add(i);
+						arr.add(i) ;
 					}
 				} catch (Exception e) {
 					msg.setStatus(Status.ERROR);
