@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%
     String path = request.getContextPath();
     String mnav = request.getParameter("mnav");
@@ -29,11 +30,16 @@
                     </div>
                 </li>
                 <li class="mnav_u dropdown"><a class="mnav pd-rt0 dropdown-toggle" href="#" data-toggle="dropdown">
-                    <div class="img-d40 mg-r10 pull-left mg-tp5" style="background-image: url('<%=path %>/images/user.png');"><img src="<%=path %>/images/user.png" title="管理员" class="img40"></div>
+                    <div class="img-d40 mg-r10 pull-left mg-tp5" style="background-image: url('<%=path %>/images/user.png');"><img src="<%=path %>/images/user.png" class="img40"></div>
 
-                    管理员<span id="msg_alert" class="ft-sz12 msg_alert gb_hide"><i class="glyphicon glyphicon-comment"></i></span> <b class="caret"></b></a>
+                   ${sessionScope.user.name}<span id="msg_alert" class="ft-sz12 msg_alert gb_hide"><i class="glyphicon glyphicon-comment"></i></span> <b class="caret"></b></a>
                     <ul class="dropdown-menu box-minw100">
-                        <li class="dpdown"><a href="<%=path %>/user/loadUserManger.do"><i class="glyphicon glyphicon-cog"></i> &nbsp;管理</a></li>
+                    <c:if test="${sessionScope.user.type==1 }">
+                        <li class="dpdown"><a href="<%=path %>/user/loadUserManger.do"><i class="glyphicon glyphicon-cog"></i> &nbsp;管理 </a></li>
+                    </c:if>
+                     <c:if test="${sessionScope.user.type==2 }">
+                        <li class="dpdown"><a href="<%=path %>/order/loadOrderManger.do"><i class="glyphicon glyphicon-cog"></i> &nbsp;管理 </a></li>
+                     </c:if>
                         <li class="dpdown"><a href="<%=path %>/login/login.do"><i class="glyphicon glyphicon-off"></i> &nbsp;退出</a></li>
                     </ul>
                 </li>

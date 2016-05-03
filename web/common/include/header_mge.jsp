@@ -20,17 +20,19 @@ String dflogo=path+"/images/logo.png";
    	</div>
  	<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
     	<ul class="nav navbar-nav" style="min-width: 750px">
-    	    <c:if test="${sessionScope.user.type!=2 }">
+    	    <c:if test="${sessionScope.user.type==1 }">
 			<li class="dropdown" onclick="window.location='<%=path%>/user/loadUserManger.do'" ><a id="drop1" data-target="#" class="nav_focus" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">人员管理</a></li>
     	    </c:if>
 			<li class="dropdown" onclick="window.location='<%=path%>/order/loadOrderManger.do'" ><a id="drop1" data-target="#" class="nav_focus" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">订单管理</a></li>
+			<c:if test="${sessionScope.user.type==1 }">
 			<li class="dropdown" onclick="window.location='<%=path%>/ggp/loadGgpTypeManger.do'" ><a id="drop1" data-target="#" class="nav_focus" href="#" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">广告牌管理</a></li>
+    	    </c:if>
     	</ul>
     	<ul class="nav navbar-nav navbar-right">
       		<li class="dropdown">
         		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> ${sessionScope.user.name} <b class="caret"></b></a>
 	          	<ul class="dropdown-menu">
-	            	<li><a href="<%=path %>"><i class="glyphicon glyphicon-home"></i> 回首页</a></li>
+	            	<li><a href="<%=path %>/portal/loadPortalIndex.do"><i class="glyphicon glyphicon-home"></i> 回首页</a></li>
 	            	<li class="divider"></li>
 	            	<li><a href="#"><i class="glyphicon glyphicon-off"></i> 退出</a></li>
 	          	</ul>
