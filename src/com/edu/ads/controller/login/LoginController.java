@@ -32,7 +32,7 @@ public class LoginController extends BaseController{
 				return "/login/login.jsp";
 			}else{
 				request.getSession().setAttribute("user", user);
-				return "/portal/index.jsp";
+				return "/portal/loadPortalIndex.do";
 			}
 		}catch(Exception e){
 			e.printStackTrace();

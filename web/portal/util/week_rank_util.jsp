@@ -1,6 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%
     String path = request.getContextPath();
+    String echarValue = (String)request.getAttribute("echarValue");
 %>
 <div class="row">
     <!-- 报表图形 -->
@@ -10,6 +12,8 @@
 </div>
 <script src="<%=path %>/common/echarts/echarts.js"></script>
 <script type="text/javascript">
+    var value ='<%=echarValue %>'
+    
     var path='<%=path %>';
     //路径配置
     require.config({
@@ -66,7 +70,7 @@
                         {
                             name:'销售量',
                             type:'bar',
-                            data:[2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6],
+                            data:${echarValue},
                             markPoint : {
                                 data : [
                                     {type : 'max', name: '最大值'},

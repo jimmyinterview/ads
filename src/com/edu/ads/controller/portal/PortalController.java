@@ -1,6 +1,12 @@
 package com.edu.ads.controller.portal;
 
+import java.util.List;
+
+import com.edu.ads.bean.portal.OrderRanger;
 import com.edu.ads.controller.BaseController;
+import com.edu.ads.service.portal.PortalService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -14,6 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/portal")
 public class PortalController extends BaseController {
 
+	@Autowired
+	private PortalService portalService;
+	
+	@RequestMapping("/loadPortalIndex.do")
+	public String loadPortalIndex(HttpServletRequest request, HttpServletResponse response){
+		return "/portal/index.jsp";
+	}
+	
     /**
      * 查询销售排名数据
      * @param request
@@ -22,8 +36,8 @@ public class PortalController extends BaseController {
      */
     @RequestMapping("/loadAdsRank.do")
     public String loadAdsRank(HttpServletRequest request, HttpServletResponse response){
-        // TODO
-
+    	List<OrderRanger> rankList = portalService.getorderCountRanger();
+    	request.setAttribute("rankList", rankList);
         return "/portal/util/ads_rank_util.jsp";
     }
 
@@ -36,7 +50,8 @@ public class PortalController extends BaseController {
     @RequestMapping("/loadAdsWeekData.do")
     public String loadAdsWeekData(HttpServletRequest request, HttpServletResponse response){
         // TODO
-
-        return "/portal/util/week_rank_util.jsp";
+    	String echarValue = portalService.getWeekRankArray();
+    	request.setAttribute("echarValue", echarValue);
+    	return "/portal/util/week_rank_util.jsp";
     }
 }

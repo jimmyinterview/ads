@@ -91,26 +91,30 @@
 			</div>
 		</div>
 	</form>
-
-	<div id="myCarousel" class="carousel slide">
-		<ol class="carousel-indicators">
-			<c:forEach items="${requestScope.ggptpList}" var="ggptp"
-				varStatus="s">
-				<li data-target="#myCarousel" data-slide-to="${s.index}"
-					<c:if test="${s.index==0}">class="active"</c:if>></li>
-			</c:forEach>
-		</ol>
-		<div class="carousel-inner">
-			<c:forEach items="${requestScope.ggptpList}" var="ggptp"
-				varStatus="s">
-				<div <c:choose><c:when test="${s.index==0}">class="active item"</c:when>
+	<c:choose>
+	<c:when
+		test="${requestScope.ggptpList!= null && fn:length(requestScope.ggptpList) > 0}">
+		<div id="myCarousel" class="carousel slide">
+			<ol class="carousel-indicators">
+				<c:forEach items="${requestScope.ggptpList}" var="ggptp"
+					varStatus="s">
+					<li data-target="#myCarousel" data-slide-to="${s.index}"
+						<c:if test="${s.index==0}">class="active"</c:if>><br></li>
+				</c:forEach>
+			</ol>
+			<div class="carousel-inner">
+				<c:forEach items="${requestScope.ggptpList}" var="ggptp"
+					varStatus="s">
+					<div
+						<c:choose><c:when test="${s.index==0}">class="active item"</c:when>
 				<c:otherwise>class="item"</c:otherwise> </c:choose>>
-					<img src="<%=basePath%>${ggptp.url}" />
-				</div>
-			</c:forEach>
+						<img src="<%=basePath%>${ggptp.url}" />
+					</div>
+				</c:forEach>
+			</div>
 		</div>
-	</div>
-
+	</c:when>
+	</c:choose>
 	<div class="modal-footer">
 		<button id="updatesubnitBtn" class="btn btn-primary pull-right"
 			type="button" onclick="submitGgpUpdate('updateGgpForm',false)">提交</button>
